@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { signIn } from "@/lib/auth-client";
 import { Droplets, Eye, EyeOff, Loader2, XCircle } from "lucide-react";
+import { toast } from "sonner";
 
 const GoogleIcon = () => (
   <svg className="h-4 w-4 shrink-0" viewBox="0 0 24 24">
@@ -74,6 +75,7 @@ export default function LoginPage() {
         return;
       }
       const role = data?.user?.role;
+      toast.success("Welcome back! 🩸");
       router.push(
         role === "admin" ? "/admin" : role === "volunteer" ? "/volunteer" : "/",
       );
