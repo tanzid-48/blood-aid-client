@@ -1,45 +1,36 @@
 import { Geist, Geist_Mono } from "next/font/google";
+import Providers from "@/components/shared/Providers";
 import "./globals.css";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
+  display: "swap",
 });
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+  display: "swap",
 });
 
 export const metadata = {
   title: {
-    default: " PUB Blood Aid | University Blood Aid Organization",
+    default: "Blood Aid | University Blood Aid Organization",
     template: "%s | Blood Aid",
   },
   description:
-    "University Blood Aid Organization — Connecting donors, volunteers, and those in need. Save lives through the gift of blood.",
-  keywords: [
-    "blood donation",
-    "blood bank",
-    "university",
-    "volunteers",
-    "donors",
-  ],
-  authors: [{ name: "Blood Aid Organization" }],
-  openGraph: {
-    title: "Blood Aid | University Blood Aid Organization",
-    description: "Connecting donors, volunteers, and those in need.",
-    type: "website",
-  },
+    "University Blood Aid Organization — Connecting donors, volunteers, and those in need.",
 };
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en" suppressHydrationWarning>
       <body
+        suppressHydrationWarning
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
+        <Providers>{children}</Providers>
       </body>
     </html>
   );
