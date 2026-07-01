@@ -1,11 +1,19 @@
-import React from 'react';
+import AboutHero from "@/components/about/AboutHero";
+import AboutStats from "@/components/about/AboutStats";
 
-const page = () => {
-    return (
-        <div>
-            
-        </div>
-    );
+
+export const metadata = {
+  title: "About Us",
+  description: "Learn about Pundra University Blood Aid Organization — who we are, our mission, and how we save lives.",
 };
 
-export default page;
+export default function AboutPage() {
+  return (
+    <>
+      <AboutHero />
+      <AboutStats />
+     
+     
+    </>
+  );
+}
