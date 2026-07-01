@@ -1,7 +1,9 @@
+import AboutCTA from "@/components/about/AboutCTA";
 import AboutHero from "@/components/about/AboutHero";
 import AboutMission from "@/components/about/AboutMission";
 import AboutStats from "@/components/about/AboutStats";
 import AboutStory from "@/components/about/AboutStory";
+import AboutValues from "@/components/about/AboutValues";
 
 
 export const metadata = {
@@ -16,7 +18,8 @@ export default function AboutPage() {
       <AboutStats />
       <AboutMission/>
       <AboutStory />
-      
+       <AboutValues />
+      <AboutCTA />
      
      
     </>
