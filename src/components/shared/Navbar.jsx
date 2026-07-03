@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { useTheme } from "next-themes";
+import { useTheme } from "@/lib/theme";
 import { useSession, signOut } from "@/lib/auth-client";
 import {
   Menu,
@@ -37,7 +37,7 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const dropdownRef = useRef(null);
 
-  const { resolvedTheme, setTheme } = useTheme();
+  const { theme, setTheme } = useTheme();
   const pathname = usePathname();
   const router = useRouter();
 
@@ -138,13 +138,11 @@ export default function Navbar() {
             {/* Theme toggle */}
             <button
               suppressHydrationWarning
-              onClick={() =>
-                setTheme(resolvedTheme === "dark" ? "light" : "dark")
-              }
+              onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
               className="p-2 rounded-full text-zinc-400 hover:text-zinc-900 dark:hover:text-white hover:bg-zinc-100 dark:hover:bg-white/8 transition-colors"
               aria-label="Toggle theme"
             >
-              {resolvedTheme === "dark" ? (
+              {theme  === "dark" ? (
                 <Sun size={17} />
               ) : (
                 <Moon size={17} />
