@@ -52,7 +52,7 @@ const STATUS_CONFIG = {
   },
 };
 
-// 
+//
 
 export default function DashboardPage() {
   const { data: session } = useSession();

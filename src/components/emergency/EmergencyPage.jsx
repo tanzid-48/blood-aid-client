@@ -15,6 +15,7 @@ import {
   ChevronDown,
   Loader2,
 } from "lucide-react";
+import { createRequest } from "@/lib/requests";
 
 const BLOOD_GROUPS = ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"];
 const DISTRICTS = [
@@ -126,22 +127,24 @@ function EmergencyForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Validation
-    if (
-      !form.patientName ||
-      !form.bloodGroup ||
-      !form.condition ||
-      !form.reason ||
-      !form.relation ||
-      !form.hospitalName ||
-      !form.district ||
-      !form.neededBy ||
-      !form.yourName ||
-      !form.yourPhone
-    ) {
+    const requiredFields = [
+      "patientName",
+      "bloodGroup",
+      "condition",
+      "reason",
+      "relation",
+      "hospitalName",
+      "district",
+      "neededBy",
+      "yourName",
+      "yourPhone",
+    ];
+
+    if (requiredFields.some((field) => !form[field])) {
       toast.error("Please fill in all required fields.");
       return;
     }
+
     if (form.yourPhone.length < 11) {
       toast.error("Please enter a valid phone number.");
       return;
@@ -149,13 +152,16 @@ function EmergencyForm() {
 
     setLoading(true);
     try {
-      // TODO: POST /api/requests (backend connect করলে)
-      await new Promise((r) => setTimeout(r, 1500)); // mock delay
+      await createRequest(form);
+
       toast.success(
         "Request submitted! Our volunteers will contact you shortly. 🩸",
       );
-      router.push("/");
-    } catch {
+
+      setTimeout(() => {
+        router.push("/dashboard/requests");
+      }, 1500);
+    } catch (error) {
       toast.error("Something went wrong. Please try again.");
     } finally {
       setLoading(false);

@@ -116,7 +116,7 @@ function SidebarContent({ onClose }) {
       </nav>
 
       {/* Sign out */}
-      <div className="px-3 py-4 border-t border-zinc-200 dark:border-white/8">
+      <div className="px-3 py-4 border-t border-zinc-200 dark:border-white/8 sticky bottom-0 bg-white dark:bg-zinc-900">
         <button
           onClick={handleSignOut}
           className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-500/10 transition-all"
