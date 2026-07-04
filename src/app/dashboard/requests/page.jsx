@@ -15,7 +15,8 @@ import {
   Calendar,
   RefreshCw,
 } from "lucide-react";
-import { getMyRequests, cancelRequest } from "@/lib/requests";
+import { cancelRequest, getMyRequests } from "@/lib/api/requests";
+
 
 const STATUS_CONFIG = {
   pending: {
