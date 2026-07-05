@@ -1,25 +1,13 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
-import { useSession } from "@/lib/auth-client";
+import { useState } from "react";
+import { useRequireRole } from "@/hooks/useRequireRole";
 import AdminSidebar from "@/components/admin/AdminSidebar";
 import AdminHeader from "@/components/admin/AdminHeader";
 
 export default function AdminLayout({ children }) {
-    
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const { data: session, isPending } = useSession();
-  const router = useRouter();
-
-  useEffect(() => {
-    if (!isPending && !session) {
-      router.push("/auth/login?from=/admin");
-    }
-    if (!isPending && session && session.user?.role !== "admin") {
-      router.push("/dashboard");
-    }
-  }, [session, isPending, router]);
+  const { isPending, isAuthorized } = useRequireRole(["admin"]);
 
   if (isPending) {
     return (
@@ -31,7 +19,7 @@ export default function AdminLayout({ children }) {
     );
   }
 
-  if (!session || session.user?.role !== "admin") return null;
+  if (!isAuthorized) return null;
 
   return (
     <div className="min-h-screen bg-zinc-50 dark:bg-[#0a0a0a] flex">
