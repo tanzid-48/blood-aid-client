@@ -41,7 +41,7 @@ function SidebarContent({ onClose }) {
     <div className="flex flex-col h-full">
       {/* Logo */}
       <div className="px-5 py-5 border-b border-zinc-200 dark:border-white/8">
-        <Link href="/admin" className="flex items-center gap-2.5">
+        <Link href="/" className="flex items-center gap-2.5">
           <div className="h-8 w-8 flex items-center justify-center rounded-lg bg-red-600 shrink-0">
             <Droplets size={16} className="text-white" fill="currentColor" />
           </div>
