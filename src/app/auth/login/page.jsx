@@ -2,10 +2,11 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { signIn } from "@/lib/auth-client";
 import { Droplets, Eye, EyeOff, Loader2, XCircle } from "lucide-react";
 import { toast } from "sonner";
+
 
 const GoogleIcon = () => (
   <svg className="h-4 w-4 shrink-0" viewBox="0 0 24 24">
@@ -39,6 +40,8 @@ export default function LoginPage() {
   const [gLoad, setGLoad] = useState(false);
   const [error, setError] = useState("");
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const from = searchParams.get("from");
 
   const set = (e) => {
     setForm((p) => ({ ...p, [e.target.name]: e.target.value }));
@@ -48,7 +51,10 @@ export default function LoginPage() {
   const handleGoogle = async () => {
     setGLoad(true);
     try {
-      await signIn.social({ provider: "google", callbackURL: "/dashboard" });
+      await signIn.social({
+        provider: "google",
+        callbackURL: from || "/dashboard",
+      });
     } catch {
       setError("Google sign-in failed.");
       setGLoad(false);
@@ -57,15 +63,19 @@ export default function LoginPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!form.email || !form.password)
-      return setError("Please fill in all fields.");
+    if (!form.email || !form.password) {
+      toast.error("Please fill in all fields.");
+      return;
+    }
     setLoading(true);
     setError("");
+
     try {
       const { data, error: err } = await signIn.email({
         email: form.email,
         password: form.password,
       });
+
       if (err) {
         setError(
           err.status === 401
@@ -74,12 +84,27 @@ export default function LoginPage() {
         );
         return;
       }
-      const role = data?.user?.role;
+
       toast.success("Welcome back! 🩸");
-      router.push(
-        role === "admin" ? "/admin" : role === "volunteer" ? "/volunteer" : "/",
-      );
-      router.refresh();
+
+      if (from) {
+        router.push(from);
+        router.refresh();
+        return;
+      }
+
+      const role = data?.user?.role;
+
+      setTimeout(() => {
+        if (role === "admin") {
+          router.push("/admin");
+        } else if (role === "volunteer") {
+          router.push("/volunteer");
+        } else {
+          router.push("/dashboard");
+        }
+        router.refresh();
+      }, 300);
     } catch {
       setError("Something went wrong. Please try again.");
     } finally {

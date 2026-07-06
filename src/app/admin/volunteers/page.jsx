@@ -2,9 +2,15 @@
 
 import { useEffect, useState, useCallback } from "react";
 import { motion } from "framer-motion";
-import { toast } from "sonner";
-import { UserCheck, Search, RefreshCw, Heart, Droplets } from "lucide-react";
-import { getAllUsers } from "@/lib/api/admin";
+import {
+  UserCheck,
+  Search,
+  RefreshCw,
+  Heart,
+  Droplets,
+  Phone,
+} from "lucide-react";
+import { getAllUsersAction } from "@/lib/actions/admin";
 import Link from "next/link";
 
 export default function AdminVolunteersPage() {
@@ -16,15 +22,10 @@ export default function AdminVolunteersPage() {
   const fetchVolunteers = useCallback(async (silent = false) => {
     if (!silent) setLoading(true);
     else setRefreshing(true);
-    try {
-      const data = await getAllUsers({ role: "volunteer" });
-      setVolunteers(data.data || []);
-    } catch {
-      toast.error("Failed to load volunteers.");
-    } finally {
-      setLoading(false);
-      setRefreshing(false);
-    }
+    const { data } = await getAllUsersAction({ role: "volunteer" });
+    setVolunteers(data);
+    setLoading(false);
+    setRefreshing(false);
   }, []);
 
   useEffect(() => {
@@ -39,7 +40,6 @@ export default function AdminVolunteersPage() {
 
   return (
     <div className="max-w-5xl space-y-5">
-      {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl font-extrabold text-zinc-900 dark:text-white">
@@ -55,7 +55,7 @@ export default function AdminVolunteersPage() {
             disabled={refreshing}
             className="flex items-center gap-2 px-4 py-2.5 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-900 text-sm font-semibold text-zinc-600 dark:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-all disabled:opacity-50"
           >
-            <RefreshCw size={15} className={refreshing ? "animate-spin" : ""} />
+            <RefreshCw size={15} className={refreshing ? "animate-spin" : ""} />{" "}
             Refresh
           </button>
           <Link
@@ -67,7 +67,6 @@ export default function AdminVolunteersPage() {
         </div>
       </div>
 
-      {/* Search */}
       <div className="relative">
         <Search
           size={16}
@@ -82,7 +81,6 @@ export default function AdminVolunteersPage() {
         />
       </div>
 
-      {/* Grid */}
       {loading ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {[1, 2, 3, 4, 5, 6].map((i) => (
@@ -134,8 +132,7 @@ export default function AdminVolunteersPage() {
                   </p>
                 </div>
               </div>
-
-              <div className="flex items-center gap-2 flex-wrap">
+              <div className="flex items-center gap-2 flex-wrap mb-3">
                 <span className="inline-flex items-center gap-1 text-[11px] font-bold px-2.5 py-1 rounded-full bg-purple-100 dark:bg-purple-950/30 text-purple-700 dark:text-purple-400">
                   <UserCheck size={10} /> Volunteer
                 </span>
@@ -150,11 +147,11 @@ export default function AdminVolunteersPage() {
                   </span>
                 )}
               </div>
-
               {vol.phone && (
-                <p className="mt-3 text-xs text-zinc-500 dark:text-zinc-400">
-                  📞 {vol.phone}
-                </p>
+                <div className="flex items-center gap-1.5 text-xs text-zinc-500 dark:text-zinc-400">
+                  <Phone size={11} className="text-zinc-400" />
+                  <span>{vol.phone}</span>
+                </div>
               )}
             </motion.div>
           ))}

@@ -110,15 +110,8 @@ function SidebarContent({ onClose }) {
         })}
       </nav>
 
-      {/* Sign out */}
+      {/* Sign out — sticky bottom */}
       <div className="px-3 py-4 border-t border-zinc-200 dark:border-white/8 sticky bottom-0 bg-white dark:bg-zinc-900">
-        <Link
-          href="/dashboard"
-          className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-white/8 transition-all mb-1"
-        >
-          <LayoutDashboard size={17} className="text-zinc-400" />
-          User Dashboard
-        </Link>
         <button
           onClick={handleSignOut}
           className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-500/10 transition-all"
@@ -157,7 +150,7 @@ export default function AdminSidebar({ open, onClose }) {
             >
               <button
                 onClick={onClose}
-                className="absolute top-4 right-4 p-1.5 rounded-lg text-zinc-500 hover:bg-zinc-100 dark:hover:bg-white/10"
+                className="absolute top-4 right-4 p-1.5 rounded-lg text-zinc-500 hover:bg-zinc-100 dark:hover:bg-white/10 transition-colors"
               >
                 <X size={18} />
               </button>

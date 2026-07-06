@@ -12,7 +12,7 @@ import {
   UserCheck,
   Activity,
 } from "lucide-react";
-import { getAnalytics } from "@/lib/api/admin";
+import { getAnalyticsAction } from "@/lib/actions/admin";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 16 },
@@ -28,17 +28,12 @@ export default function AdminPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetch = async () => {
-      try {
-        const data = await getAnalytics();
-        setStats(data);
-      } catch {
-        setStats(null);
-      } finally {
-        setLoading(false);
-      }
+    const load = async () => {
+      const { success, data } = await getAnalyticsAction();
+      if (success) setStats(data);
+      setLoading(false);
     };
-    fetch();
+    load();
   }, []);
 
   const statCards = stats
@@ -108,7 +103,6 @@ export default function AdminPage() {
 
   return (
     <div className="max-w-6xl space-y-6">
-      {/* Header */}
       <motion.div
         initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
@@ -158,7 +152,7 @@ export default function AdminPage() {
         </div>
       )}
 
-      {/* Request breakdown */}
+      {/* Progress bars */}
       {stats && (
         <motion.div
           initial={{ opacity: 0, y: 16 }}
@@ -169,7 +163,7 @@ export default function AdminPage() {
           <h2 className="text-sm font-bold text-zinc-900 dark:text-white mb-5">
             Request Status Overview
           </h2>
-          <div className="space-y-3">
+          <div className="space-y-4">
             {[
               {
                 label: "Pending",
