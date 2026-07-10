@@ -29,6 +29,7 @@ const navLinks = [
   { label: "Events", href: "/events" },
   { label: "Blog", href: "/blog" },
   { label: "Contact", href: "/contact" },
+  { label: "FAQs", href: "/faqs" },
 ];
 
 export default function Navbar() {
@@ -142,11 +143,7 @@ export default function Navbar() {
               className="p-2 rounded-full text-zinc-400 hover:text-zinc-900 dark:hover:text-white hover:bg-zinc-100 dark:hover:bg-white/8 transition-colors"
               aria-label="Toggle theme"
             >
-              {theme  === "dark" ? (
-                <Sun size={17} />
-              ) : (
-                <Moon size={17} />
-              )}
+              {theme === "dark" ? <Sun size={17} /> : <Moon size={17} />}
             </button>
 
             {/* Auth — desktop */}
