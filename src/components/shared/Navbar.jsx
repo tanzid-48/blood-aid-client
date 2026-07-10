@@ -30,6 +30,7 @@ const navLinks = [
   { label: "Blog", href: "/blog" },
   { label: "Contact", href: "/contact" },
   { label: "FAQs", href: "/faqs" },
+  { label: "Stories", href: "/stories" },
 ];
 
 export default function Navbar() {
